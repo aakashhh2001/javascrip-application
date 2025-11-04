@@ -1,0 +1,49 @@
+name: Javascript app build and test using npm
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 1. Install Dependencies
+        run: npm ci
+
+      - name: 2. Build the Project
+        run: npm run build
+
+      - name: 3. List the Build Artifact
+        run: |
+          echo "--- Listing build artifacts in dist/ ---"
+          ls -l dist
+  test:
+    
+    
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: 1. Install Dependencies
+        run: npm ci
+
+      - name: 4. Run Unit Tests
+        run: npm test
